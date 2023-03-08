@@ -1,14 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
+<?import hi.verkefni4.vidmot.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="hi.verkefni4.vidmot.Graphics.PlayView"
-            prefHeight="400.0" prefWidth="600.0">
-
-</AnchorPane>
+<fx:root prefHeight="600.0" prefWidth="500.0" type="javafx.scene.layout.Pane" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
+    <children>
+        <Player fx:id="player" />
+    </children>
+</fx:root>

@@ -1,14 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.shape.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="hi.verkefni4.vidmot.PlayerView"
-            prefHeight="400.0" prefWidth="600.0" >
 
-</AnchorPane>
+<fx:root fx:id="player" centerX="20.0" centerY="20.0" radius="20.0" strokeType="INSIDE" type="javafx.scene.shape.Circle" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
+   <fill>
+      <RadialGradient centerX="0.5" focusAngle="161.57" focusDistance="-0.06976744186046513" radius="1.0">
+         <stops>
+            <Stop>
+               <color>
+                  <Color red="1.0" green="0.3776223659515381" />
+               </color>
+            </Stop>
+            <Stop offset="0.007407407407407408">
+               <color>
+                  <Color red="1.0" green="0.3776223659515381" />
+               </color>
+            </Stop>
+            <Stop offset="1.0">
+               <color>
+                  <Color red="0.10999999940395355" green="0.06993845850229263" blue="0.01759999990463257" />
+               </color>
+            </Stop>
+         </stops>
+      </RadialGradient>
+   </fill>
+</fx:root>
