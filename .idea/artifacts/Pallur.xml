@@ -1,0 +1,16 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="Pallur">
+    <output-path>$PROJECT_DIR$/out/artifacts/Pallur</output-path>
+    <root id="archive" name="Pallur.jar">
+      <element id="module-output" name="vidmot" />
+      <element id="library" level="project" name="Maven: org.openjfx:javafx-controls:11.0.2" />
+      <element id="library" level="project" name="Maven: org.openjfx:javafx-controls:linux:11.0.2" />
+      <element id="library" level="project" name="Maven: org.openjfx:javafx-graphics:11.0.2" />
+      <element id="library" level="project" name="Maven: org.openjfx:javafx-graphics:linux:11.0.2" />
+      <element id="library" level="project" name="Maven: org.openjfx:javafx-base:11.0.2" />
+      <element id="library" level="project" name="Maven: org.openjfx:javafx-base:linux:11.0.2" />
+      <element id="library" level="project" name="Maven: org.openjfx:javafx-fxml:17.0.2" />
+      <element id="library" level="project" name="Maven: org.openjfx:javafx-fxml:linux:17.0.2" />
+    </root>
+  </artifact>
+</component>
