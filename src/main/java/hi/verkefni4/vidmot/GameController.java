@@ -1,22 +1,18 @@
 package hi.verkefni4.vidmot;
 
+import hi.verkefni4.vinnsla.Game;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 
 public class GameController {
 
-    @FXML
-    private VBox fxGame;
+    Game game;
 
     @FXML
-    Label fxStig;
+    Label fxScore;
 
     public PlayArea getFxPlayArea() {
         return fxPlayArea;
@@ -26,12 +22,10 @@ public class GameController {
     PlayArea fxPlayArea;
 
     @FXML
-    Player player;
-
-    @FXML
     public void initialize() {
+        game = new Game(fxScore);
         initGameLoop();
-        fxPlayArea.initPlatforms(5);
+        fxPlayArea.initGameObjects(4, game);
     }
 
     private void initGameLoop() {
@@ -45,8 +39,8 @@ public class GameController {
     }
 
     private void gameLoop() {
-        fxPlayArea.updateBall();
-        fxPlayArea.updatePlatforms();
+        fxPlayArea.update();
+        game.increaseScore(1);
     }
 
 }

@@ -1,5 +1,7 @@
 package hi.verkefni4.vidmot;
 
+import hi.verkefni4.vinnsla.Game;
+import hi.verkefni4.vinnsla.GameObject;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.fxml.FXMLLoader;
@@ -8,9 +10,10 @@ import javafx.scene.shape.Circle;
 import java.io.IOException;
 import java.util.Currency;
 
-public class Player extends Circle {
+public class Player extends Circle implements GameObject {
 
     private static final int ACCEL = 6;
+    public static  final int FALL_SPEED = 4;
 
     private boolean movingLeft = false;
 
@@ -46,14 +49,18 @@ public class Player extends Circle {
         if(movingLeft != movingRight){
             if(movingLeft){
                 xLocation.set(xLocation.get() - ACCEL);
+                if(getCenterX() < getRadius())
+                    xLocation.set(getRadius());
             } else{
                 xLocation.set(xLocation.get() + ACCEL);
+                if(getCenterX() > Game.GAME_WIDTH - getRadius())
+                    xLocation.set(Game.GAME_WIDTH - getRadius());
             }
         }
         if(colliding){
-            yLocation.set(yLocation.get() - 2);
+            yLocation.set(yLocation.get() - Game.getPlatformSpeed());
         } else {
-            yLocation.set(yLocation.get() + 2);
+            yLocation.set(yLocation.get() + FALL_SPEED);
         }
     }
 

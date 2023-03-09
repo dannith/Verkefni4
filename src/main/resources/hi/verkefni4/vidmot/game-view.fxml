@@ -3,10 +3,18 @@
 <?import hi.verkefni4.vidmot.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<VBox fx:id="fxGame" maxHeight="620.0" maxWidth="500.0" minHeight="620.0" minWidth="500.0" prefHeight="620.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hi.verkefni4.vidmot.GameController">
+<VBox fx:id="fxGame" maxHeight="620.0" maxWidth="500.0" minHeight="620.0" minWidth="500.0" prefHeight="620.0" prefWidth="500.0" stylesheets="@bouncingball.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hi.verkefni4.vidmot.GameController">
    <children>
-            <PlayArea fx:id="fxPlayArea" />
-            <Label fx:id="fxStig" alignment="CENTER" contentDisplay="CENTER" maxHeight="40.0" maxWidth="500.0" minHeight="40.0" minWidth="500.0" prefHeight="40.0" prefWidth="500.0" text="Label" />
+            <PlayArea fx:id="fxPlayArea" minHeight="600.0" prefHeight="600.0" />
+      <Pane prefHeight="20.0" prefWidth="200.0" styleClass="panel">
+         <children>
+                  <Label fx:id="fxScore" alignment="CENTER" contentDisplay="CENTER" maxHeight="20.0" maxWidth="500.0" minHeight="20.0" minWidth="500.0" prefHeight="40.0" prefWidth="500.0" text="Score" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font></Label>
+         </children>
+      </Pane>
    </children>
 </VBox>
