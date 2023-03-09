@@ -7,12 +7,11 @@ import javafx.scene.layout.Pane;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 public class PlayArea extends Pane {
 
-    int bilMilliPlatforms;
+    int distanceBetweenPlatforms;
     @FXML
     Player player;
 
@@ -31,44 +30,55 @@ public class PlayArea extends Pane {
     }
 
     public void initPlatforms(int nrOfPlatforms){
-        bilMilliPlatforms = 600 / nrOfPlatforms;
+        distanceBetweenPlatforms = 600 / nrOfPlatforms;
         Random rand = new Random();
         for(int i = 0; i < nrOfPlatforms; i++){
             Platform platform = new Platform();
             platform.setX(rand.nextInt(400));
-            platform.setY(100 + bilMilliPlatforms * i);
+            platform.setY(100 + distanceBetweenPlatforms * i);
             platforms.add(platform);
+            platform.toBack();
             getChildren().add(platform);
         }
     }
 
 
     public void initInput() {
-        player.getScene().addEventFilter(KeyEvent.ANY,
+        player.getScene().addEventFilter(KeyEvent.KEY_PRESSED,
                 event -> {
                     switch(event.getCode()) {
                         case LEFT:
-                            player.updateSpeed(-4);
+                            player.setMovingLeft(true);
                             break;
                         case RIGHT:
-                            player.updateSpeed(4);
+                            player.setMovingRight(true);
                             break;
                     }
                 });
-    }
-
-    public void initPlayer(){
-        player.setCenterX(250);
+        player.getScene().addEventFilter(KeyEvent.KEY_RELEASED,
+                event -> {
+                    switch(event.getCode()) {
+                        case LEFT:
+                            player.setMovingLeft(false);
+                            break;
+                        case RIGHT:
+                            player.setMovingRight(false);
+                            break;
+                    }
+                });
     }
 
     public void updateBall(){
         player.update();
     }
 
-    public void updatePlatforms(){
-        for(Platform platform : platforms)
-        {
+    public void updatePlatforms() {
+        boolean colliding = false;
+        for (Platform platform : platforms) {
             platform.update();
+            if(!colliding)
+                colliding = platform.getBoundsInParent().intersects(player.getBoundsInParent());
         }
+        player.setColliding(colliding);
     }
 }

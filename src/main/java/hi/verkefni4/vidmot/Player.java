@@ -1,16 +1,33 @@
 package hi.verkefni4.vidmot;
 
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.shape.Circle;
 
 import java.io.IOException;
+import java.util.Currency;
 
 public class Player extends Circle {
 
-    private static final int MAX_SPEED = 4;
-    private static final int SLOW_DOWN = 1;
+    private static final int ACCEL = 6;
 
-    private double currentSpeed = 0;
+    private boolean movingLeft = false;
+
+    public void setMovingLeft(boolean movingLeft) {
+        this.movingLeft = movingLeft;
+    }
+
+    public void setMovingRight(boolean movingRight) {
+        this.movingRight = movingRight;
+    }
+
+    private boolean movingRight = false;
+    private boolean colliding = false;
+
+    private DoubleProperty xLocation = new SimpleDoubleProperty(250);
+    private DoubleProperty yLocation = new SimpleDoubleProperty(0);
+
 
     public Player () {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("player-view.fxml"));
@@ -21,18 +38,26 @@ public class Player extends Circle {
         } catch (IOException exception) {
             throw new RuntimeException(exception);
         }
+        this.centerXProperty().bind(xLocation);
+        this.centerYProperty().bind(yLocation);
     }
 
     public void update(){
-        this.setCenterX(this.getCenterX() + currentSpeed);
+        if(movingLeft != movingRight){
+            if(movingLeft){
+                xLocation.set(xLocation.get() - ACCEL);
+            } else{
+                xLocation.set(xLocation.get() + ACCEL);
+            }
+        }
+        if(colliding){
+            yLocation.set(yLocation.get() - 2);
+        } else {
+            yLocation.set(yLocation.get() + 2);
+        }
     }
 
-    public void updateSpeed(double speed){
-        currentSpeed += speed;
-        if(currentSpeed > MAX_SPEED)
-            currentSpeed = MAX_SPEED;
-        else if(currentSpeed < -MAX_SPEED)
-            currentSpeed = -MAX_SPEED;
+    public void setColliding(boolean colliding) {
+        this.colliding = colliding;
     }
-
 }

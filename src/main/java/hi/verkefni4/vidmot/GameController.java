@@ -31,7 +31,6 @@ public class GameController {
     @FXML
     public void initialize() {
         initGameLoop();
-        fxPlayArea.initPlayer();
         fxPlayArea.initPlatforms(5);
     }
 
