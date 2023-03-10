@@ -5,15 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3b95bdfe-2263-4e23-b64b-2bebd621290f" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/resources/hi/verkefni4/vidmot/bouncingball.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/hi/verkefni4/vidmot/GameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hi/verkefni4/vidmot/GameController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/hi/verkefni4/vidmot/Platform.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hi/verkefni4/vidmot/Platform.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/hi/verkefni4/vidmot/PlayArea.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hi/verkefni4/vidmot/PlayArea.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/hi/verkefni4/vidmot/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hi/verkefni4/vidmot/Player.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/hi/verkefni4/vinnsla/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hi/verkefni4/vinnsla/Game.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/hi/verkefni4/vinnsla/GameObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hi/verkefni4/vinnsla/GameObject.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/hi/verkefni4/vidmot/bouncingball.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/hi/verkefni4/vidmot/bouncingball.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/hi/verkefni4/vidmot/game-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/hi/verkefni4/vidmot/game-view.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/hi/verkefni4/vidmot/platform-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/hi/verkefni4/vidmot/platform-view.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/hi/verkefni4/vidmot/play-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/hi/verkefni4/vidmot/play-view.fxml" afterDir="false" />

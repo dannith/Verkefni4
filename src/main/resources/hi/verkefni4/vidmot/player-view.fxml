@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.paint.*?>
 <?import javafx.scene.shape.*?>
 
 
-<fx:root fx:id="player" styleClass="player" centerX="20.0" centerY="20.0" radius="20.0" strokeType="INSIDE" type="javafx.scene.shape.Circle" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root fx:id="player" centerX="20.0" centerY="20.0" fill="WHITE" radius="20.0" strokeType="INSIDE" styleClass="player" type="javafx.scene.shape.Circle" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
 </fx:root>

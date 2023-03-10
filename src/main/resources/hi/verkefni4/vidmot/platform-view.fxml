@@ -3,5 +3,5 @@
 <?import javafx.scene.shape.*?>
 
 
-<fx:root fx:id="platform" height="20.0" strokeType="OUTSIDE" strokeWidth="2.0" styleClass="platform" type="javafx.scene.shape.Rectangle" width="110.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root fx:id="platform" height="20.0" strokeType="INSIDE" strokeWidth="2.0" styleClass="platform" type="javafx.scene.shape.Rectangle" width="110.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
 </fx:root>

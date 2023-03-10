@@ -10,7 +10,7 @@ import java.util.Random;
 
 public class Platform extends Rectangle implements GameObject {
 
-    private static final int OUT_OF_BOUNDS = -20;
+    private static final int OUT_OF_BOUNDS = 40;
 
     private Random rand;
 
@@ -24,6 +24,7 @@ public class Platform extends Rectangle implements GameObject {
             throw new RuntimeException(exception);
         }
         rand = new Random();
+        setColor();
     }
 
     public void update() {
@@ -31,16 +32,23 @@ public class Platform extends Rectangle implements GameObject {
         if(this.getY() < OUT_OF_BOUNDS){
             newPos();
         }
-        double litur = 1 - ((getY() - OUT_OF_BOUNDS) / Game.GAME_HEIGHT);
-        if(litur < 0)
-            litur = 0;
-        this.setFill(new Color(litur, litur, litur, 1.0));
+        double litur = ((getY() - OUT_OF_BOUNDS) / Game.GAME_HEIGHT);
+        if(litur > 1)
+            litur = 1;
+        this.setStrokeWidth((this.getHeight() / 2) * litur);
     }
 
     private void newPos(){
         final int OFFSET = 100;
         this.setX(rand.nextInt(Game.GAME_WIDTH) - getWidth() / 2);
         this.setY(Game.GAME_HEIGHT + rand.nextInt(OFFSET));
+
+        // Nýjan lit líka
+        setColor();
+    }
+
+    private void setColor(){
+        this.setStroke(new Color(rand.nextDouble(),rand.nextDouble(),rand.nextDouble(), 1.0));
     }
 
 
