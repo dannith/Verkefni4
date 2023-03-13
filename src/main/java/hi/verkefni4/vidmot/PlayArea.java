@@ -1,7 +1,6 @@
 package hi.verkefni4.vidmot;
 
 import hi.verkefni4.vinnsla.Game;
-import hi.verkefni4.vinnsla.GameObject;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.input.KeyEvent;
@@ -21,7 +20,8 @@ public class PlayArea extends Pane {
 
     Game game;
 
-    public PlayArea () {
+
+    public PlayArea() {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("play-view.fxml"));
         fxmlLoader.setRoot(this);   // rótin á viðmótstrénu sett hér
         fxmlLoader.setController(this); // controllerinn settur hér en ekki í .fxml skránni
@@ -32,12 +32,12 @@ public class PlayArea extends Pane {
         }
     }
 
-    public void initGameObjects(int nrOfPlatforms, Game game){
+    public void initGameObjects(int nrOfPlatforms, Game game) {
         this.game = game;
         distanceBetweenPlatforms = Game.GAME_HEIGHT / nrOfPlatforms;
         int ySpawnLevel = 300;
         Random rand = new Random();
-        for(int i = 0; i < nrOfPlatforms; i++){
+        for (int i = 0; i < nrOfPlatforms; i++) {
             Platform platform = new Platform(player);
             platform.setX(rand.nextInt(Game.GAME_WIDTH - (int) platform.getWidth()));
             platform.setY(ySpawnLevel + distanceBetweenPlatforms * i);
@@ -51,7 +51,7 @@ public class PlayArea extends Pane {
     public void initInput() {
         player.getScene().addEventFilter(KeyEvent.KEY_PRESSED,
                 event -> {
-                    switch(event.getCode()) {
+                    switch (event.getCode()) {
                         case LEFT:
                             player.setMovingLeft(true);
                             break;
@@ -62,7 +62,7 @@ public class PlayArea extends Pane {
                 });
         player.getScene().addEventFilter(KeyEvent.KEY_RELEASED,
                 event -> {
-                    switch(event.getCode()) {
+                    switch (event.getCode()) {
                         case LEFT:
                             player.setMovingLeft(false);
                             break;
@@ -73,20 +73,20 @@ public class PlayArea extends Pane {
                 });
     }
 
-    public void update(){
-        player.update();
+    public void update(double deltaTime) {
         boolean colliding = false;
         for (Platform platform : platforms) {
-            platform.update();
-            if(!colliding) {
-                colliding = platform.getBoundsInParent().intersects(player.getBoundsInParent());
-                if(colliding)
-                    colliding = player.getCenterY() + player.getRadius() - Player.FALL_SPEED * 2 < platform.getY();
-            }
+            platform.update(deltaTime);
+            if (!colliding && !player.isColliding())
+                platform.checkCollision(player, deltaTime);
+
         }
-        player.setColliding(colliding);
-        if(game.scoreProperty().get() % 2000 == 0){
-            Game.increaseSpeed();
-        }
+        player.update(deltaTime);
+        ;
+    }
+
+    public void disablePlatform() {
+        for(Platform platform : platforms)
+            if(platform.deactivate()) break;
     }
 }

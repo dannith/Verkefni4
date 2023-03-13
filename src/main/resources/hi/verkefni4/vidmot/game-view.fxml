@@ -10,18 +10,18 @@
 <VBox fx:id="fxGame" maxHeight="620.0" maxWidth="500.0" minHeight="620.0" minWidth="500.0" prefHeight="620.0" prefWidth="500.0" stylesheets="@bouncingball.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hi.verkefni4.vidmot.GameController">
    <children>
             <PlayArea fx:id="fxPlayArea" minHeight="600.0" prefHeight="600.0" />
-      <Pane prefHeight="20.0" prefWidth="200.0" styleClass="hidden">
+      <Pane prefHeight="20.0" prefWidth="200.0" styleClass="death">
          <children>
             <Polygon fill="WHITE" strokeType="INSIDE">
               <points>
                   <Double fx:value="200.0" />
-                  <Double fx:value="20.0" />
+                  <Double fx:value="18.0" />
                   <Double fx:value="225.0" />
                   <Double fx:value="0.0" />
                   <Double fx:value="275.0" />
                   <Double fx:value="0.0" />
                   <Double fx:value="300.0" />
-                  <Double fx:value="20.0" />
+                  <Double fx:value="18.0" />
               </points>
             </Polygon>
                   <Label fx:id="fxScore" alignment="CENTER" contentDisplay="CENTER" maxHeight="20.0" maxWidth="500.0" minHeight="20.0" minWidth="500.0" prefHeight="40.0" prefWidth="500.0" text="Score">
