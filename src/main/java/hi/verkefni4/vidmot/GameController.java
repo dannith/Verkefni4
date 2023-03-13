@@ -6,7 +6,6 @@ import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.util.Duration;
-import java.time.Instant;
 
 public class GameController {
 
@@ -34,6 +33,7 @@ public class GameController {
         Game.state = Game.State.START;
         Game.bindScore(fxScore);
         initGameLoop();
+        fxPlayArea.createPlatforms(Game.MAX_PLATFORMS);
     }
 
     private void initGameLoop() {
@@ -48,13 +48,16 @@ public class GameController {
 
     private void gameLoop() {
         long time = System.nanoTime();
-        deltaTime = (time - lastTime) / 1000000000.0;
+        deltaTime = (time - lastTime) / 1000000000.0; // Seconds
         lastTime = time;
         elapsedTime += deltaTime;
         switch(Game.state) {
             case START:
+                Game.resetSpeed();
+                fxPlayArea.resetGameObjects(Game.MAX_PLATFORMS);
                 nrOfPlatforms = Game.MAX_PLATFORMS;
-                fxPlayArea.initGameObjects(nrOfPlatforms, game);
+                elapsedSeconds = 0;
+                elapsedTime = 0;
                 Game.state = Game.State.ONGOING;
                 break;
             case ONGOING:
@@ -67,6 +70,7 @@ public class GameController {
                     if (elapsedSeconds % Game.SECONDS_PER_PLATFORM == 0
                             && nrOfPlatforms > Game.MIN_PLATFORMS) {
                         nrOfPlatforms--;
+                        System.out.println(elapsedSeconds);
                         fxPlayArea.disablePlatform();
                     }
                 }

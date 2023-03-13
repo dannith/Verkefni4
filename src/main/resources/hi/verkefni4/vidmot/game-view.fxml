@@ -2,6 +2,7 @@
 
 <?import hi.verkefni4.vidmot.*?>
 <?import java.lang.*?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.shape.*?>
@@ -12,7 +13,7 @@
             <PlayArea fx:id="fxPlayArea" minHeight="600.0" prefHeight="600.0" />
       <Pane prefHeight="20.0" prefWidth="200.0" styleClass="death">
          <children>
-            <Polygon fill="WHITE" strokeType="INSIDE">
+            <Polygon fill="WHITE" strokeType="OUTSIDE" strokeWidth="4.0">
               <points>
                   <Double fx:value="200.0" />
                   <Double fx:value="20.0" />
@@ -24,11 +25,14 @@
                   <Double fx:value="20.0" />
               </points>
             </Polygon>
-                  <Label fx:id="fxScore" alignment="CENTER" contentDisplay="CENTER" maxHeight="20.0" maxWidth="500.0" minHeight="20.0" minWidth="500.0" prefHeight="40.0" prefWidth="500.0" text="Score">
+                  <Label fx:id="fxScore" alignment="CENTER" contentDisplay="CENTER" maxWidth="500.0" minHeight="0.0" minWidth="500.0" prefWidth="500.0" text="Score">
                <font>
-                  <Font name="System Bold" size="13.0" />
+                  <Font name="System Bold" size="16.0" />
                </font></Label>
          </children>
+         <VBox.margin>
+            <Insets />
+         </VBox.margin>
       </Pane>
    </children>
 </VBox>

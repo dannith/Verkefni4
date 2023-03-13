@@ -27,7 +27,7 @@ public class Platform extends Rectangle implements GameObject {
     private static final double COLOR_MIN = 0.05;
     private static final double COLOR_MAX = 0.95;
     private Player playerRef;
-    DoubleProperty opacity = new SimpleDoubleProperty(1);
+    DoubleProperty opacity = new SimpleDoubleProperty(0);
 
     public Platform(Player player) {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("platform-view.fxml"));
@@ -51,6 +51,8 @@ public class Platform extends Rectangle implements GameObject {
             this.setY(this.getY() - Game.getPlatformSpeed() * deltaTime);
             if (this.getY() < 100 + Game.OUT_OF_BOUNDS) {
                 opacity.set((getY() - Game.OUT_OF_BOUNDS) / 100);
+            } else if(opacity.get() < 1.0){
+                fadeIn(deltaTime);
             }
             if (this.getY() < Game.OUT_OF_BOUNDS) {
                 setColor();
@@ -78,7 +80,7 @@ public class Platform extends Rectangle implements GameObject {
     public boolean checkCollision(Player playerRef, double deltaTime){
         boolean colliding = false;
         if(playerRef.getCenterX() > getX() && playerRef.getCenterX() < getX() + getWidth())
-            if(Math.abs(playerRef.getCenterY() + playerRef.getRadius() - getY()) < playerRef.getCurrentFallSpeed() + Game.getPlatformSpeed() * deltaTime){
+            if(Math.abs(playerRef.getCenterY() + playerRef.getRadius() - getY()) < playerRef.getCurrentYSpeed() + Game.getPlatformSpeed() * deltaTime){
                 playerRef.setPlatform(this);
                 colliding = true;
             }
@@ -144,13 +146,22 @@ public class Platform extends Rectangle implements GameObject {
         return false;
     }
 
+    public void activate(){
+        isActive = true;
+        updating = true;
+    }
+
     public void fadeIn(double deltaTime){
-        final double FADE_STEP = 0.5;
-        opacity.set(opacity.get() + FADE_STEP * deltaTime);
+        if(opacity.get() < 1.0) {
+            final double FADE_STEP = 0.5;
+            opacity.set(opacity.get() + FADE_STEP * deltaTime);
+        }
     }
 
     public void fadeOut(double deltaTime) {
-        final double FADE_STEP = 0.5;
-        opacity.set(opacity.get() - FADE_STEP * deltaTime);
+        if(opacity.get() > 0) {
+            final double FADE_STEP = 0.8;
+            opacity.set(opacity.get() - FADE_STEP * deltaTime);
+        }
     }
 }

@@ -12,11 +12,11 @@ public class GameApplication extends Application {
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(GameApplication.class.getResource("game-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 500, 620);
-        stage.setTitle("BBBBBB!");
+        stage.setTitle("BBBBBBounceddddddddownnn!");
         stage.setScene(scene);
         stage.show();
         GameController controller = fxmlLoader.getController();
-        controller.getFxPlayArea().initInput();
+        controller.getFxPlayArea().init();
     }
 
     public static void main(String[] args) {

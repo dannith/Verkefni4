@@ -33,12 +33,12 @@ public class Player extends Circle implements GameObject {
 
     private boolean colliding = false;
 
-    private double currentSpeed;
+    private double currentXSpeed;
 
-    private double currentFallSpeed;
+    private double currentYSpeed;
 
-    public double getCurrentFallSpeed() {
-        return currentFallSpeed;
+    public double getCurrentYSpeed() {
+        return currentYSpeed;
     }
 
     private final double SPEED_INCREASE = 600;
@@ -67,7 +67,7 @@ public class Player extends Circle implements GameObject {
         }
         this.centerXProperty().bind(xLocation);
         this.centerYProperty().bind(yLocation);
-        currentFallSpeed = 0;
+        currentYSpeed = 0;
     }
 
     public void update(double deltaTime){
@@ -76,38 +76,62 @@ public class Player extends Circle implements GameObject {
                 setColor();
                 if(movingLeft != movingRight){
                     if(movingLeft){
-                        currentSpeed -= (SPEED_INCREASE * deltaTime);
-                        if(currentSpeed < -Game.PLAYER_SPEED) currentSpeed = -Game.PLAYER_SPEED;
+                        currentXSpeed -= (SPEED_INCREASE * deltaTime);
+                        if(currentXSpeed < -Game.PLAYER_SPEED) currentXSpeed = -Game.PLAYER_SPEED;
                     } else{
-                        currentSpeed += (SPEED_INCREASE * deltaTime);
-                        if(currentSpeed > Game.PLAYER_SPEED) currentSpeed = Game.PLAYER_SPEED;
+                        currentXSpeed += (SPEED_INCREASE * deltaTime);
+                        if(currentXSpeed > Game.PLAYER_SPEED) currentXSpeed = Game.PLAYER_SPEED;
                     }
                 } else{
-                    currentSpeed *= 0.9;
+                    currentXSpeed *= 0.9;
                 }
-                xLocation.set(xLocation.get() + currentSpeed * deltaTime);
+                xLocation.set(xLocation.get() + currentXSpeed * deltaTime);
 
-                if(getCenterX() < getRadius())
+                if(getCenterX() < getRadius()) {
                     xLocation.set(getRadius());
-                if(getCenterX() > Game.GAME_WIDTH - getRadius())
+                    currentXSpeed = 0;
+                }
+                if(getCenterX() > Game.GAME_WIDTH - getRadius()) {
                     xLocation.set(Game.GAME_WIDTH - getRadius());
+                    currentXSpeed = 0;
+                }
 
                 if(colliding){
                     yLocation.set(platformRef.getY() - getRadius());
                     checkOutofPlatform(deltaTime);
                 } else {
-                    yLocation.set(yLocation.get() + currentFallSpeed);
-                    currentFallSpeed += Game.FALL_SPEED * deltaTime;
+                    yLocation.set(yLocation.get() + currentYSpeed);
+                    currentYSpeed += Game.FALL_SPEED * deltaTime;
                 }
                 if(getCenterY() >= Game.GAME_HEIGHT - getRadius()){
+                    startEnd();
                     Game.state = Game.State.END;
                 }
                 break;
             case END:
-
+                xLocation.set(getCenterX() - stepX * Game.PLAYER_SPEED * deltaTime);
+                yLocation.set(getCenterY() - stepY * Game.PLAYER_SPEED * deltaTime);
+                final double MARGIN = 5;
+                setColor();
+                if(Math.abs(xLocation.get() - Game.GAME_WIDTH / 2) < MARGIN && Math.abs(yLocation.get() - getRadius()) < MARGIN)
+                    Game.state = Game.State.START;
                 break;
         }
 
+    }
+
+    double length;
+    double stepX;
+    double stepY;
+    public void startEnd(){
+        disconnect();
+        currentXSpeed = 0;
+        length = Math.sqrt(Math.pow(getCenterX() - (Game.GAME_WIDTH / 2),2) + Math.pow(getCenterY() - getRadius(),2));
+        stepX = (getCenterX() - (Game.GAME_WIDTH / 2)) / length;
+        stepY = (getCenterY() - getRadius()) / length;
+        currentYSpeed = 0;
+        Game.setFinalScore();
+        Game.resetScore();
     }
 
     private void setColor(){
@@ -118,10 +142,8 @@ public class Player extends Circle implements GameObject {
     }
 
     private void checkOutofPlatform(double deltaTime) {
-        if(
-                getCenterX() < platformRef.getX() ||
-                getCenterX() > platformRef.getX() + platformRef.getWidth()
-        ){
+        if(getCenterX() < platformRef.getX() ||
+                getCenterX() > platformRef.getX() + platformRef.getWidth()){
             disconnect();
         }
     }
@@ -142,6 +164,6 @@ public class Player extends Circle implements GameObject {
     private void disconnect(){
         colliding = false;
         platformRef = null;
-        currentFallSpeed = 0;
+        currentYSpeed = 0;
     }
 }

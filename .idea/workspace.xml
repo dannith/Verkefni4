@@ -6,12 +6,15 @@
   <component name="ChangeListManager">
     <list default="true" id="3b95bdfe-2263-4e23-b64b-2bebd621290f" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/hi/verkefni4/vidmot/GameApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hi/verkefni4/vidmot/GameApplication.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/hi/verkefni4/vidmot/GameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hi/verkefni4/vidmot/GameController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/hi/verkefni4/vidmot/Platform.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hi/verkefni4/vidmot/Platform.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/hi/verkefni4/vidmot/PlayArea.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hi/verkefni4/vidmot/PlayArea.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/hi/verkefni4/vidmot/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hi/verkefni4/vidmot/Player.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/hi/verkefni4/vinnsla/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hi/verkefni4/vinnsla/Game.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/hi/verkefni4/vidmot/bouncingball.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/hi/verkefni4/vidmot/bouncingball.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/hi/verkefni4/vidmot/game-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/hi/verkefni4/vidmot/game-view.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/hi/verkefni4/vidmot/play-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/hi/verkefni4/vidmot/play-view.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
