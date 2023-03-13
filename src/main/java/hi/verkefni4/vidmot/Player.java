@@ -9,7 +9,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
 import java.io.IOException;
-import java.util.Currency;
 
 public class Player extends Circle implements GameObject {
 
@@ -34,6 +33,25 @@ public class Player extends Circle implements GameObject {
 
     private boolean colliding = false;
 
+    private double currentSpeed;
+
+    private double currentFallSpeed;
+
+    public double getCurrentFallSpeed() {
+        return currentFallSpeed;
+    }
+
+    private final double SPEED_INCREASE = 600;
+
+
+    public void setxLocation(double xLocation) {
+        this.xLocation.set(xLocation);
+    }
+
+    public void setyLocation(double yLocation) {
+        this.yLocation.set(yLocation);
+    }
+
     private DoubleProperty xLocation = new SimpleDoubleProperty(250);
     private DoubleProperty yLocation = new SimpleDoubleProperty(0);
 
@@ -49,27 +67,47 @@ public class Player extends Circle implements GameObject {
         }
         this.centerXProperty().bind(xLocation);
         this.centerYProperty().bind(yLocation);
+        currentFallSpeed = 0;
     }
 
     public void update(double deltaTime){
-        setColor();
-        if(movingLeft != movingRight){
-            if(movingLeft){
-                xLocation.set(xLocation.get() - Game.PLAYER_SPEED * deltaTime);
+        switch(Game.state){
+            case ONGOING:
+                setColor();
+                if(movingLeft != movingRight){
+                    if(movingLeft){
+                        currentSpeed -= (SPEED_INCREASE * deltaTime);
+                        if(currentSpeed < -Game.PLAYER_SPEED) currentSpeed = -Game.PLAYER_SPEED;
+                    } else{
+                        currentSpeed += (SPEED_INCREASE * deltaTime);
+                        if(currentSpeed > Game.PLAYER_SPEED) currentSpeed = Game.PLAYER_SPEED;
+                    }
+                } else{
+                    currentSpeed *= 0.9;
+                }
+                xLocation.set(xLocation.get() + currentSpeed * deltaTime);
+
                 if(getCenterX() < getRadius())
                     xLocation.set(getRadius());
-            } else{
-                xLocation.set(xLocation.get() + Game.PLAYER_SPEED * deltaTime);
                 if(getCenterX() > Game.GAME_WIDTH - getRadius())
                     xLocation.set(Game.GAME_WIDTH - getRadius());
-            }
+
+                if(colliding){
+                    yLocation.set(platformRef.getY() - getRadius());
+                    checkOutofPlatform(deltaTime);
+                } else {
+                    yLocation.set(yLocation.get() + currentFallSpeed);
+                    currentFallSpeed += Game.FALL_SPEED * deltaTime;
+                }
+                if(getCenterY() >= Game.GAME_HEIGHT - getRadius()){
+                    Game.state = Game.State.END;
+                }
+                break;
+            case END:
+
+                break;
         }
-        if(colliding){
-            yLocation.set(platformRef.getY() - getRadius());
-            checkOutofPlatform();
-        } else {
-            yLocation.set(yLocation.get() + Game.FALL_SPEED * deltaTime);
-        }
+
     }
 
     private void setColor(){
@@ -79,16 +117,16 @@ public class Player extends Circle implements GameObject {
         setFill(new Color(color, 1 - color, 0, 1));
     }
 
-    private void checkOutofPlatform() {
+    private void checkOutofPlatform(double deltaTime) {
         if(
                 getCenterX() < platformRef.getX() ||
                 getCenterX() > platformRef.getX() + platformRef.getWidth()
         ){
-            colliding = false;
-            platformRef = null;
+            disconnect();
         }
     }
     public void setPlatform(Platform platform) {
+        Game.increaseScore(5);
         platformRef = platform;
         colliding = true;
     }
@@ -97,8 +135,13 @@ public class Player extends Circle implements GameObject {
         if(colliding)
             if(platform.equals(platformRef))
             {
-                colliding = false;
-                platformRef = null;
+                disconnect();
             }
+    }
+
+    private void disconnect(){
+        colliding = false;
+        platformRef = null;
+        currentFallSpeed = 0;
     }
 }

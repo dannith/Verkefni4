@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -15,6 +16,8 @@ public class PlayArea extends Pane {
     int distanceBetweenPlatforms;
     @FXML
     Player player;
+    private final double X_PLAYER = Game.GAME_WIDTH / 2;
+    private final double Y_PLAYER = 20;
     @FXML
     ArrayList<Platform> platforms = new ArrayList<Platform>();
 
@@ -33,6 +36,7 @@ public class PlayArea extends Pane {
     }
 
     public void initGameObjects(int nrOfPlatforms, Game game) {
+        platforms.clear();
         this.game = game;
         distanceBetweenPlatforms = Game.GAME_HEIGHT / nrOfPlatforms;
         int ySpawnLevel = 300;
@@ -45,6 +49,7 @@ public class PlayArea extends Pane {
             getChildren().add(platform);
             player.toFront();
         }
+        player.setyLocation(player.getRadius());
     }
 
 
@@ -79,10 +84,16 @@ public class PlayArea extends Pane {
             platform.update(deltaTime);
             if (!colliding && !player.isColliding())
                 platform.checkCollision(player, deltaTime);
-
         }
         player.update(deltaTime);
-        ;
+    }
+
+    public void handleGameOver(double deltaTime){
+        for(Platform platform : platforms){
+            Color color = ((Color) platform.getFill()).grayscale();
+            platform.setFill(color);
+            platform.fadeOut(deltaTime);
+        }
     }
 
     public void disablePlatform() {

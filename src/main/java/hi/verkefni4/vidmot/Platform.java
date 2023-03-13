@@ -2,6 +2,8 @@ package hi.verkefni4.vidmot;
 
 import hi.verkefni4.vinnsla.Game;
 import hi.verkefni4.vinnsla.GameObject;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -21,12 +23,11 @@ public class Platform extends Rectangle implements GameObject {
     private boolean redGlow = true;
     private boolean greenGlow = true;
     private boolean blueGlow = true;
-
     private double colorStep = 0.5;
     private static final double COLOR_MIN = 0.05;
     private static final double COLOR_MAX = 0.95;
-
     private Player playerRef;
+    DoubleProperty opacity = new SimpleDoubleProperty(1);
 
     public Platform(Player player) {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("platform-view.fxml"));
@@ -39,6 +40,7 @@ public class Platform extends Rectangle implements GameObject {
         }
         playerRef = player;
         rand = new Random();
+        opacityProperty().bind(opacity);
         isActive = true;
         updating = true;
         setColor();
@@ -47,37 +49,36 @@ public class Platform extends Rectangle implements GameObject {
     public void update(double deltaTime) {
         if(updating) {
             this.setY(this.getY() - Game.getPlatformSpeed() * deltaTime);
+            if (this.getY() < 100 + Game.OUT_OF_BOUNDS) {
+                opacity.set((getY() - Game.OUT_OF_BOUNDS) / 100);
+            }
             if (this.getY() < Game.OUT_OF_BOUNDS) {
                 setColor();
-                newPos();
+                newPos(deltaTime);
+                opacity.set(1);
             }
-            double litur = ((getY() - Game.OUT_OF_BOUNDS) / Game.GAME_HEIGHT);
-            if (litur > 1)
-                litur = 1;
-            this.setStrokeWidth((this.getHeight() / 2) * litur);
             setFill(updateColor(deltaTime));
         }
     }
 
-    private void newPos(){
+    private void newPos(double deltaTime){
         playerRef.checkPlatform(this);
         if(isActive) {
-            final int OFFSET = 100;
+            final int OFFSET = 150;
             this.setX(rand.nextInt(Game.GAME_WIDTH) - (getWidth() / 2));
             this.setY(Game.GAME_HEIGHT + rand.nextInt(OFFSET));
-            // Nýjan lit
             setColor();
         } else {
             this.setY(Game.GAME_HEIGHT * 2);
             updating = false;
         }
-
     }
+
 
     public boolean checkCollision(Player playerRef, double deltaTime){
         boolean colliding = false;
         if(playerRef.getCenterX() > getX() && playerRef.getCenterX() < getX() + getWidth())
-            if(Math.abs(playerRef.getCenterY() + playerRef.getRadius() - getY()) < Game.FALL_SPEED * deltaTime + Game.getPlatformSpeed() * deltaTime){
+            if(Math.abs(playerRef.getCenterY() + playerRef.getRadius() - getY()) < playerRef.getCurrentFallSpeed() + Game.getPlatformSpeed() * deltaTime){
                 playerRef.setPlatform(this);
                 colliding = true;
             }
@@ -141,5 +142,15 @@ public class Platform extends Rectangle implements GameObject {
             return true;
         }
         return false;
+    }
+
+    public void fadeIn(double deltaTime){
+        final double FADE_STEP = 0.5;
+        opacity.set(opacity.get() + FADE_STEP * deltaTime);
+    }
+
+    public void fadeOut(double deltaTime) {
+        final double FADE_STEP = 0.5;
+        opacity.set(opacity.get() - FADE_STEP * deltaTime);
     }
 }
