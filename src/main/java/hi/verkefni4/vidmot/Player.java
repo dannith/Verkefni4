@@ -155,13 +155,11 @@ public class Player extends Circle implements GameObject {
     }
 
     private void checkOutofPlatform(double deltaTime) {
-        if(getCenterX() < platformRef.getX() ||
-                getCenterX() > platformRef.getX() + platformRef.getWidth()){
+        if(getCenterX() < platformRef.getX() || getCenterX() > platformRef.getX() + platformRef.getWidth())
             disconnect();
-        }
     }
     public void setPlatform(Platform platform) {
-        Game.increaseScore(5);
+        //Game.increaseScore(5);
         platformRef = platform;
         colliding = true;
     }
@@ -169,9 +167,7 @@ public class Player extends Circle implements GameObject {
     public void checkPlatform(Platform platform) {
         if(colliding)
             if(platform.equals(platformRef))
-            {
                 disconnect();
-            }
     }
 
     private void disconnect(){

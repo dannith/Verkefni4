@@ -34,7 +34,7 @@ public class Game {
     private final static double SPEED_STEP = 3;
     public final static int OUT_OF_BOUNDS = 40;
     public final static int PLAYER_SPEED = 300;
-    public final static int FALL_SPEED = 3;
+    public final static int FALL_SPEED = 9;
     public final static int MAX_PLATFORMS = 10;
     public final static int MIN_PLATFORMS = 2;
     public final static int SECONDS_PER_PLATFORM = 8;
