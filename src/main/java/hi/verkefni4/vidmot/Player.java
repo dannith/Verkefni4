@@ -13,8 +13,7 @@ import java.io.IOException;
 public class Player extends Circle implements GameObject {
 
 
-    double color = 1;
-
+    private double color = 1;
     private boolean movingLeft = false;
 
     public void setMovingLeft(boolean movingLeft) {
@@ -56,6 +55,7 @@ public class Player extends Circle implements GameObject {
     private DoubleProperty yLocation = new SimpleDoubleProperty(0);
 
     private Platform platformRef = null;
+
     public Player () {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("player-view.fxml"));
         fxmlLoader.setRoot(this);   // rótin á viðmótstrénu sett hér
@@ -68,6 +68,15 @@ public class Player extends Circle implements GameObject {
         this.centerXProperty().bind(xLocation);
         this.centerYProperty().bind(yLocation);
         currentYSpeed = 0;
+    }
+
+    public void setGhost(Circle left, Circle right){
+        left.fillProperty().bind(fillProperty());
+        left.centerYProperty().bind(centerYProperty());
+        left.centerXProperty().bind(centerXProperty().subtract(Game.GAME_WIDTH));
+        right.fillProperty().bind(fillProperty());
+        right.centerYProperty().bind(centerYProperty());
+        right.centerXProperty().bind(centerXProperty().add(Game.GAME_WIDTH));
     }
 
     public void update(double deltaTime){
@@ -85,8 +94,10 @@ public class Player extends Circle implements GameObject {
                 } else{
                     currentXSpeed *= 0.9;
                 }
-                xLocation.set(xLocation.get() + currentXSpeed * deltaTime);
+                double newXLoc = xLocation.get() + currentXSpeed * deltaTime;
+                xLocation.set(newXLoc < 0 ? newXLoc + Game.GAME_WIDTH : newXLoc % Game.GAME_WIDTH);
 
+                /*  Hér var ég með collision á veggina sitthvoru megin - tók út og setti inn ghost svo þú getur farið hringinn
                 if(getCenterX() < getRadius()) {
                     xLocation.set(getRadius());
                     currentXSpeed = 0;
@@ -95,6 +106,7 @@ public class Player extends Circle implements GameObject {
                     xLocation.set(Game.GAME_WIDTH - getRadius());
                     currentXSpeed = 0;
                 }
+                 */
 
                 if(colliding){
                     yLocation.set(platformRef.getY() - getRadius());
@@ -119,6 +131,7 @@ public class Player extends Circle implements GameObject {
         }
 
     }
+
 
     double length;
     double stepX;

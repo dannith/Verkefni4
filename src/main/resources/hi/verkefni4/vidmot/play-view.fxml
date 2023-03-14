@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import hi.verkefni4.vidmot.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import hi.verkefni4.vidmot.Player?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.text.Font?>
 
-<fx:root prefHeight="600.0" prefWidth="500.0" styleClass="bg" stylesheets="@bouncingball.css" type="javafx.scene.layout.Pane" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root prefHeight="600.0" prefWidth="500.0" styleClass="bg" stylesheets="@bouncingball.css" type="javafx.scene.layout.Pane" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
     <children>
         <Player fx:id="player" />
+        <Circle fx:id="ghostLeft" radius="20.0" />
+        <Circle fx:id="ghostRight" radius="20.0" />
       <Label fx:id="lastScore" contentDisplay="CENTER" rotate="10.0" text="320" textFill="#9bff94">
          <font>
             <Font name="System Bold" size="128.0" />

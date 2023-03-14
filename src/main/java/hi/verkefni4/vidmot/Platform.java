@@ -67,8 +67,8 @@ public class Platform extends Rectangle implements GameObject {
         playerRef.checkPlatform(this);
         if(isActive) {
             final int OFFSET = 150;
-            this.setX(rand.nextInt(Game.GAME_WIDTH) - (getWidth() / 2));
-            this.setY(Game.GAME_HEIGHT + rand.nextInt(OFFSET));
+            this.setX(rand.nextInt((int)(Game.GAME_WIDTH - getWidth())));
+            this.setY((int) ((Game.getPlatformSpeed() + Game.PLATFORM_SPEED) * deltaTime + Game.GAME_HEIGHT) + rand.nextInt(OFFSET));
             setColor();
         } else {
             this.setY(Game.GAME_HEIGHT * 2);

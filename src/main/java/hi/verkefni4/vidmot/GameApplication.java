@@ -15,6 +15,7 @@ public class GameApplication extends Application {
         stage.setTitle("BBBBBBounceddddddddownnn!");
         stage.setScene(scene);
         stage.show();
+        stage.setResizable(false);
         GameController controller = fxmlLoader.getController();
         controller.getFxPlayArea().init();
     }

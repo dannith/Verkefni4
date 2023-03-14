@@ -9,6 +9,7 @@ import javafx.scene.control.Label;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -19,6 +20,10 @@ public class PlayArea extends Pane {
     int distanceBetweenPlatforms;
     @FXML
     Player player;
+    @FXML
+    Circle ghostLeft;
+    @FXML
+    Circle ghostRight;
     @FXML
     ArrayList<Platform> platforms = new ArrayList<Platform>();
 
@@ -57,6 +62,7 @@ public class PlayArea extends Pane {
     public void init() {
         Game.bindLastScore(lastScore);
         lastScore.opacityProperty().bind(opacity);
+        player.setGhost(ghostLeft, ghostRight);
         player.getScene().addEventFilter(KeyEvent.KEY_PRESSED,
                 event -> {
                     switch (event.getCode()) {

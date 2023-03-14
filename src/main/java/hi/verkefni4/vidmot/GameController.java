@@ -5,6 +5,7 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 
 public class GameController {
@@ -70,7 +71,6 @@ public class GameController {
                     if (elapsedSeconds % Game.SECONDS_PER_PLATFORM == 0
                             && nrOfPlatforms > Game.MIN_PLATFORMS) {
                         nrOfPlatforms--;
-                        System.out.println(elapsedSeconds);
                         fxPlayArea.disablePlatform();
                     }
                 }
