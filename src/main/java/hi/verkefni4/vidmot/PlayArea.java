@@ -44,6 +44,10 @@ public class PlayArea extends Pane {
         }
     }
 
+    /**
+     * Upphafstilli pallastaðsetningu.
+     * @param nrOfPlatforms fjöldi palla
+     */
     public void resetGameObjects(int nrOfPlatforms) {
         distanceBetweenPlatforms = Game.GAME_HEIGHT / nrOfPlatforms;
         int ySpawnLevel = 300;
@@ -59,9 +63,13 @@ public class PlayArea extends Pane {
     }
 
 
+    /**
+     * Stilli bindingar og takka
+     */
     public void init() {
         Game.bindLastScore(lastScore);
         lastScore.opacityProperty().bind(opacity);
+        lastScore.textFillProperty().bind(player.fillProperty());
         player.setGhost(ghostLeft, ghostRight);
         player.getScene().addEventFilter(KeyEvent.KEY_PRESSED,
                 event -> {
@@ -87,17 +95,25 @@ public class PlayArea extends Pane {
                 });
     }
 
+    /**
+     *  Uppfæri palla og spilara, stóri textinn fyrir miðju hverfur.
+      * @param deltaTime sekúndur frá seinasta kalli á þessa aðferð
+     */
     public void update(double deltaTime) {
-        boolean colliding = false;
         for (Platform platform : platforms) {
             platform.update(deltaTime);
-            if (!colliding && !player.isColliding())
-                platform.checkCollision(player, deltaTime);
+            if (!player.isColliding())
+                platform.checkCollision(deltaTime);
         }
         player.update(deltaTime);
         highscoreFadeOut(deltaTime);
     }
 
+    /**
+     * Stóru stig fyrir miðju hverfa með tíma.
+     * hér er FADE_STEP 2 sem þýðir hann hverfur alveg á 2 sek.
+     * @param deltaTime sekúndur frá seinasta kalli á þessa aðferð
+     */
     private void highscoreFadeOut(double deltaTime){
         if(opacity.get() > 0) {
             final double FADE_STEP = 2;
@@ -105,6 +121,11 @@ public class PlayArea extends Pane {
         }
     }
 
+    /**
+     * Stóru stig fyrir miðju birtast með tíma.
+     * hér er FADE_STEP 1.2 sem þýðir hann birtist alveg á 1.2sek
+     * @param deltaTime sekúndur frá seinasta kalli á þessa aðferð
+     */
     private void highscoreFadeIn(double deltaTime){
         if(opacity.get() < 1) {
             final double FADE_STEP = 1.2;
@@ -112,6 +133,13 @@ public class PlayArea extends Pane {
         }
     }
 
+    /**
+     * Stilli alla palla svarthvíta, stilli texta fyrir stigin sem leikmaður náði svo hann er fyrir miðju
+     * Einnig láta hann birtast með tímanum.
+     * Allir palla hverfa líka með tímanum.
+     * Spilari uppfærist - en er nú í gameover mode og þá er ekki hægt að stýra honum fyrr en því er lokið.
+      * @param deltaTime sekúndur frá seinasta kalli á þessa aðferð
+     */
     public void handleGameOver(double deltaTime){
         lastScore.setTranslateX(Game.GAME_WIDTH / 2 - lastScore.getWidth() / 2);
         lastScore.setTranslateY(Game.GAME_HEIGHT / 2 - lastScore.getHeight() / 2);
@@ -124,11 +152,18 @@ public class PlayArea extends Pane {
         player.update(deltaTime);
     }
 
+    /**
+     * Finn næsta platform sem er virkt og stilli það óvirkt
+     */
     public void disablePlatform() {
         for(Platform platform : platforms)
-            if(platform.deactivate()) break;
+            if(platform.deactivate()) return;
     }
 
+    /**
+     * Bý til palla og set inná play-view
+     * @param nrOfPlatforms hversu marga palla.
+     */
     public void createPlatforms(int nrOfPlatforms) {
         for (int i = 0; i < nrOfPlatforms; i++) {
             Platform platform = new Platform(player);

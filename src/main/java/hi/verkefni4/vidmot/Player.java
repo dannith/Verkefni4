@@ -68,6 +68,14 @@ public class Player extends Circle implements GameObject {
         currentYSpeed = 0;
     }
 
+    /**
+     * Stilli bindingar fyrir "ghost" sem er hringur sem fylgir spilara nema hann er með offset hægra og vinstra megin við hann
+     * Geri þetta svo þegar spilari "fer hringinn" þá sést hinn helmingurinn af honum hinum megin á leiksvæðinu
+     * T.d: Ef hann er hálfur útaf leiksvæðinu hægra megin, birtist hann hálfur hinum megin sem gefur til kynna að þetta sé sami boltinn
+     * en er það ekki.
+     * @param left  draugur sem fylgir spilaranum vinstra megin við hann
+     * @param right draugur sem fylgir spilaranum hægra megin við hann
+     */
     public void setGhost(Circle left, Circle right){
         left.fillProperty().bind(fillProperty());
         left.centerYProperty().bind(centerYProperty());
@@ -77,6 +85,11 @@ public class Player extends Circle implements GameObject {
         right.centerXProperty().bind(centerXProperty().add(Game.GAME_WIDTH));
     }
 
+    /**
+     * Uppfærir spilara miðað við stöðu leiksins:
+     *
+     * @param deltaTime sekúndur síðan seinasta kalls á þetta fall.
+     */
     public void update(double deltaTime){
         switch(Game.state){
             case ONGOING:
@@ -131,8 +144,9 @@ public class Player extends Circle implements GameObject {
 
     }
 
-    double stepX;
-    double stepY;
+    // Game over þessi 2 breytur fá gildi í fallinu fyrir neðan.
+    double stepX; // x hreyfing fyrir hverja update loop þegar bolti færist að byrjunarreit
+    double stepY; // y hreyfing fyrir hverja update loop þegar bolti færist að byrjunarreit
 
     /**
      * Finn vigur fyrir player til að fara eftir að upphafsstað áður en leikur byrjar aftur
@@ -141,9 +155,9 @@ public class Player extends Circle implements GameObject {
      */
     public void startEnd(){
         disconnect();
-        double length = Math.sqrt(Math.pow(getCenterX() - (Game.GAME_WIDTH / 2),2) + Math.pow(getCenterY() - getRadius(),2));
-        stepX = (getCenterX() - (Game.GAME_WIDTH / 2)) / length;
-        stepY = (getCenterY() - getRadius()) / length;
+        double length = Math.sqrt(Math.pow(getCenterX() - (Game.GAME_WIDTH / 2),2) + Math.pow(getCenterY() - getRadius(),2)); // Pýþagóras
+        stepX = (getCenterX() - (Game.GAME_WIDTH / 2)) / length; // Einingavigur
+        stepY = (getCenterY() - getRadius()) / length; // Einingavigur
         currentYSpeed = 0;
         currentXSpeed = 0;
         Game.setFinalScore();
@@ -180,7 +194,7 @@ public class Player extends Circle implements GameObject {
     }
 
     /**
-     * Athuga hvort spilari sé staddur við platform, ef svo er þá aftengjast.
+     * Athuga hvort spilari sé staddur á palli, ef svo er þá aftengjast.
      * Það er aðeins kallað á þetta fall þegar platform er komið efst upp og hverfur.
      * @param platform
      */

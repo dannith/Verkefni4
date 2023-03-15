@@ -16,16 +16,15 @@ public class Platform extends Rectangle implements GameObject {
 
     private boolean isActive;
     private boolean updating;
-
     private double red;
     private double green;
     private double blue;
     private boolean redGlow = true;
     private boolean greenGlow = true;
     private boolean blueGlow = true;
-    private double colorStep = 0.5;
-    private static final double COLOR_MIN = 0.05;
-    private static final double COLOR_MAX = 0.95;
+    private double colorStep;
+    private static final double COLOR_MIN = 0.05; // Vil ekki fá alveg svarta palla
+    private static final double COLOR_MAX = 0.95; // Vil ekki fá alveg hvíta palla
     private Player playerRef;
     DoubleProperty opacity = new SimpleDoubleProperty(0);
 
@@ -46,12 +45,20 @@ public class Platform extends Rectangle implements GameObject {
         setColor();
     }
 
+    /**
+     * Hverri uppfærslu af leik uppfæra pall, lit, gegnsæisleika, staðsetningu
+     * @param deltaTime  sekúndur frá seinasta kalli á þetta fall
+     */
     public void update(double deltaTime) {
         if(updating) {
             this.setY(this.getY() - Game.getPlatformSpeed() * deltaTime);
+            // Ef pallurinn er kominn 100 pixlum frá lokasvæði palls, byrja hverfa
             if (this.getY() < 100 + Game.PLATFORM_OUT_OF_BOUNDS) {
+                // stilli hlutfall gegnsæisleika miðað við fjarlægð frá endapunkti
+                // t.d: 40 pixlum frá endasvæði → gegnsæisgildið verður 0.4
                 opacity.set((getY() - Game.PLATFORM_OUT_OF_BOUNDS) / 100);
             } else if(opacity.get() < 1.0){
+                // Þetta er aðeins satt í byrjun leiks.
                 fadeIn(deltaTime);
             }
             if (this.getY() < Game.PLATFORM_OUT_OF_BOUNDS) {
@@ -63,6 +70,10 @@ public class Platform extends Rectangle implements GameObject {
         }
     }
 
+    /**
+     * Færir pall niður á nýjan byrjunarstað, ef hann er virkur, ef hann var merkur óvirkur þá færist hann útfyrir leiksvæðið og hættir að hreyfast.
+     * @param deltaTime sekúndur frá seinasta kalli á þetta fall
+     */
     private void newPos(double deltaTime){
         playerRef.checkPlatform(this);
         if(isActive) {
@@ -76,17 +87,21 @@ public class Platform extends Rectangle implements GameObject {
         }
     }
 
-
-    public boolean checkCollision(Player playerRef, double deltaTime){
-        boolean colliding = false;
+    /**
+     * Athugar hvort neðsti punktur bolta snerti efsta part palls
+     * @param deltaTime sekúndur frá seinasta kalli á þetta fall
+     */
+    public void checkCollision(double deltaTime){
         if(playerRef.getCenterX() > getX() && playerRef.getCenterX() < getX() + getWidth())
             if(Math.abs(playerRef.getCenterY() + playerRef.getRadius() - getY()) < playerRef.getCurrentYSpeed() + Game.getPlatformSpeed() * deltaTime){
                 playerRef.setPlatform(this);
-                colliding = true;
             }
-        return colliding;
     }
 
+    /**
+     * Býr til nýjan lit fyrir pall og hversu hratt hann eigi að ítra í gegnum litagildin.
+     * semsagt allt frá 0.25 - 0.49 hröðun á ítrun þar sem 0 er enginn litur og 1 hæsta gildi á lit
+     */
     private void setColor(){
         colorStep = (rand.nextInt(25) + 25) * 0.01;
         red = rand.nextDouble();
@@ -95,6 +110,14 @@ public class Platform extends Rectangle implements GameObject {
         setFill(new Color(red * 0.01, green * 0.01, blue * 0.01, 1.0));
     }
 
+    /**
+     * Hækkar eða lækkar R,G og B gildið á núverandi lit
+     * ATH: Ég gerði fyrst hjálparfall en þar sem það er ekki leið til að gera pass by reference á
+     * grunntög (int double, boolean osfrv) sem ég veit af var það ekki góð lausn, myndi þurfa búa til sér
+     * klasa fyrir litina svo ég útfærði þetta svona.
+     * @param deltaTime sekúndur frá seinasta kalli á þetta fall
+     * @return
+     */
     private Color updateColor(double deltaTime){
         if(redGlow){
             red += (colorStep * deltaTime);
@@ -138,6 +161,12 @@ public class Platform extends Rectangle implements GameObject {
         return new Color(red, green, blue, 1.0);
     }
 
+    /**
+     * Merkir pallinn sem óvirkan og skilar hvort hann hafi verið óvirkur,
+     * hann heldur áfram að uppfærast þrátt fyrir að vera óvirkur, en eftir hann hverfur efst næst
+     * hættir hann að uppfærast
+     * @return skilar true ef hann var virkur en false ef hann var óvirkur
+     */
     public boolean deactivate() {
         if(isActive) {
             isActive = false;
@@ -146,11 +175,18 @@ public class Platform extends Rectangle implements GameObject {
         return false;
     }
 
+    /**
+     * Merkir pallinn virkan og að hann eigi að uppfærast
+     */
     public void activate(){
         isActive = true;
         updating = true;
     }
 
+    /**
+     * Pallur birtist yfir tíma
+     * @param deltaTime sekúndur frá seinasta kalli á þetta fall
+     */
     public void fadeIn(double deltaTime){
         if(opacity.get() < 1.0) {
             final double FADE_STEP = 0.5;
@@ -158,6 +194,10 @@ public class Platform extends Rectangle implements GameObject {
         }
     }
 
+    /**
+     * Pallur hverfur yfir tíma
+     * @param deltaTime sekúndur frá seinasta kalli á þetta fall
+     */
     public void fadeOut(double deltaTime) {
         if(opacity.get() > 0) {
             final double FADE_STEP = 0.8;
