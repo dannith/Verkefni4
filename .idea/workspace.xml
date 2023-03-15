@@ -6,6 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="3b95bdfe-2263-4e23-b64b-2bebd621290f" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/hi/verkefni4/vidmot/GameApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hi/verkefni4/vidmot/GameApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/hi/verkefni4/vidmot/Platform.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hi/verkefni4/vidmot/Platform.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/hi/verkefni4/vidmot/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hi/verkefni4/vidmot/Player.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/hi/verkefni4/vinnsla/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/hi/verkefni4/vinnsla/Game.java" afterDir="false" />
     </list>
@@ -57,7 +59,7 @@
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;last_opened_file_path&quot;: &quot;/home/dannith/Documents/Vidmots/KeyEventOrvatakkar&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Artifacts&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;
   }

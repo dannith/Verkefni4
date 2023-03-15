@@ -1,5 +1,6 @@
 package hi.verkefni4.vidmot;
 
+import hi.verkefni4.vinnsla.Game;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;

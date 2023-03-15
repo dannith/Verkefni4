@@ -40,8 +40,6 @@ public class Player extends Circle implements GameObject {
         return currentYSpeed;
     }
 
-    private final double SPEED_INCREASE = 600;
-
 
     public void setxLocation(double xLocation) {
         this.xLocation.set(xLocation);
@@ -85,11 +83,11 @@ public class Player extends Circle implements GameObject {
                 setColor();
                 if(movingLeft != movingRight){
                     if(movingLeft){
-                        currentXSpeed -= (SPEED_INCREASE * deltaTime);
-                        if(currentXSpeed < -Game.PLAYER_SPEED) currentXSpeed = -Game.PLAYER_SPEED;
+                        currentXSpeed -= (Game.SPEED_INCREASE * deltaTime);
+                        if(currentXSpeed < -Game.PLAYER_MAX_SPEED) currentXSpeed = -Game.PLAYER_MAX_SPEED;
                     } else{
-                        currentXSpeed += (SPEED_INCREASE * deltaTime);
-                        if(currentXSpeed > Game.PLAYER_SPEED) currentXSpeed = Game.PLAYER_SPEED;
+                        currentXSpeed += (Game.SPEED_INCREASE * deltaTime);
+                        if(currentXSpeed > Game.PLAYER_MAX_SPEED) currentXSpeed = Game.PLAYER_MAX_SPEED;
                     }
                 } else{
                     currentXSpeed *= 0.9;
@@ -98,6 +96,7 @@ public class Player extends Circle implements GameObject {
                 xLocation.set(newXLoc < 0 ? newXLoc + Game.GAME_WIDTH : newXLoc % Game.GAME_WIDTH);
 
                 /*  Hér var ég með collision á veggina sitthvoru megin - tók út og setti inn ghost svo þú getur farið hringinn
+                    Og hinn helmingurinn af spilaranum sést koma í gegn, þannig þú sérð alltaf spilarann.
                 if(getCenterX() < getRadius()) {
                     xLocation.set(getRadius());
                     currentXSpeed = 0;
@@ -110,7 +109,7 @@ public class Player extends Circle implements GameObject {
 
                 if(colliding){
                     yLocation.set(platformRef.getY() - getRadius());
-                    checkOutofPlatform(deltaTime);
+                    checkOutofPlatform();
                 } else {
                     yLocation.set(yLocation.get() + currentYSpeed);
                     currentYSpeed += Game.FALL_SPEED * deltaTime;
@@ -121,8 +120,8 @@ public class Player extends Circle implements GameObject {
                 }
                 break;
             case END:
-                xLocation.set(getCenterX() - stepX * Game.PLAYER_SPEED * deltaTime);
-                yLocation.set(getCenterY() - stepY * Game.PLAYER_SPEED * deltaTime);
+                xLocation.set(getCenterX() - stepX * Game.PLAYER_MAX_SPEED * deltaTime);
+                yLocation.set(getCenterY() - stepY * Game.PLAYER_MAX_SPEED * deltaTime);
                 final double MARGIN = 5;
                 setColor();
                 if(Math.abs(xLocation.get() - Game.GAME_WIDTH / 2) < MARGIN && Math.abs(yLocation.get() - getRadius()) < MARGIN)
@@ -132,21 +131,29 @@ public class Player extends Circle implements GameObject {
 
     }
 
-
-    double length;
     double stepX;
     double stepY;
+
+    /**
+     * Finn vigur fyrir player til að fara eftir að upphafsstað áður en leikur byrjar aftur
+     * Uppfæri stóru stigin sem birtast á miðju skjás
+     * Núllstilli núverandi hraða á x og y ás svo hann byrji ekki næsta leik á fullri ferð.
+     */
     public void startEnd(){
         disconnect();
-        currentXSpeed = 0;
-        length = Math.sqrt(Math.pow(getCenterX() - (Game.GAME_WIDTH / 2),2) + Math.pow(getCenterY() - getRadius(),2));
+        double length = Math.sqrt(Math.pow(getCenterX() - (Game.GAME_WIDTH / 2),2) + Math.pow(getCenterY() - getRadius(),2));
         stepX = (getCenterX() - (Game.GAME_WIDTH / 2)) / length;
         stepY = (getCenterY() - getRadius()) / length;
         currentYSpeed = 0;
+        currentXSpeed = 0;
         Game.setFinalScore();
         Game.resetScore();
     }
 
+    /**
+     * Uppfæri núverandi lit spilara miðað við hvar hann er á leikborðinu:
+     * Því ofar sem hann er því grænni, því neðar því rauðari verður hann.
+     */
     private void setColor(){
         color = getCenterY() / Game.GAME_HEIGHT;
         color = color < 0 ? 0 : color;
@@ -154,22 +161,38 @@ public class Player extends Circle implements GameObject {
         setFill(new Color(color, 1 - color, 0, 1));
     }
 
-    private void checkOutofPlatform(double deltaTime) {
+    /**
+     * Athuga hvort spilari er kominn út fyrir
+     */
+    private void checkOutofPlatform() {
         if(getCenterX() < platformRef.getX() || getCenterX() > platformRef.getX() + platformRef.getWidth())
             disconnect();
     }
+
+    /**
+     * Stilli platform sem spilari er á
+     * @param platform
+     */
     public void setPlatform(Platform platform) {
         //Game.increaseScore(5);
         platformRef = platform;
         colliding = true;
     }
 
+    /**
+     * Athuga hvort spilari sé staddur við platform, ef svo er þá aftengjast.
+     * Það er aðeins kallað á þetta fall þegar platform er komið efst upp og hverfur.
+     * @param platform
+     */
     public void checkPlatform(Platform platform) {
         if(colliding)
             if(platform.equals(platformRef))
                 disconnect();
     }
 
+    /**
+     * Afterngir spilara við platform, og núllstillir fallhraðann.
+     */
     private void disconnect(){
         colliding = false;
         platformRef = null;

@@ -49,12 +49,12 @@ public class Platform extends Rectangle implements GameObject {
     public void update(double deltaTime) {
         if(updating) {
             this.setY(this.getY() - Game.getPlatformSpeed() * deltaTime);
-            if (this.getY() < 100 + Game.OUT_OF_BOUNDS) {
-                opacity.set((getY() - Game.OUT_OF_BOUNDS) / 100);
+            if (this.getY() < 100 + Game.PLATFORM_OUT_OF_BOUNDS) {
+                opacity.set((getY() - Game.PLATFORM_OUT_OF_BOUNDS) / 100);
             } else if(opacity.get() < 1.0){
                 fadeIn(deltaTime);
             }
-            if (this.getY() < Game.OUT_OF_BOUNDS) {
+            if (this.getY() < Game.PLATFORM_OUT_OF_BOUNDS) {
                 setColor();
                 newPos(deltaTime);
                 opacity.set(1);
